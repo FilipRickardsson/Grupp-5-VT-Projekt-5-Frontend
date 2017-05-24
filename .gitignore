@@ -9,3 +9,6 @@
 *bin
 *.bin
 *bin
+/QuizzToolFrontend/nbproject/private/
+/QuizzToolFrontend/dist/
+/QuizzToolFrontend/build/
