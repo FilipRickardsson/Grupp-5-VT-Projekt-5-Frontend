@@ -2,6 +2,53 @@
  * Stylesheet file.
  */
 
-.root {
+* {
+}
 
+.root {
+    -fx-background-color: #EFEFEF;
+}
+
+.header {
+    -fx-font-size: 24px;
+}
+
+.banner {
+    -fx-background-color: #EE7202; 
+    -fx-pref-width: 900px;
+    -fx-pref-height: 100px;
+    -fx-padding: 20px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.banner .label {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;    
+}
+
+.content {
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: TOP_CENTER;
+    -fx-max-width: 500px;
+
+}
+
+.login {
+    -fx-pref-width: 400px;
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-background-radius: 10;
+}
+
+.login .loginButton {
+    -fx-pref-width: 500px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+}
+
+.textfield {
+    -fx-min-height: 35px;
 }
