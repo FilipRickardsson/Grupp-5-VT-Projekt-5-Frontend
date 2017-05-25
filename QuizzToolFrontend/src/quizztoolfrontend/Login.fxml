@@ -25,14 +25,14 @@
             <VBox styleClass="login">
                <children>
                   <Label text="Username:" />
-                  <TextField styleClass="textfield" />
+                  <TextField fx:id="tfUsername" styleClass="textfield" />
                   <Label text="Password:" />
-                  <PasswordField styleClass="textfield" />
-                  <Button mnemonicParsing="false" styleClass="loginButton" text="Login">
+                  <PasswordField fx:id="tfPassword" styleClass="textfield" />
+                  <Label fx:id="lblError" styleClass="error" />
+                  <Button mnemonicParsing="false" onAction="#login" styleClass="loginButton" text="Login">
                      <VBox.margin>
-                        <Insets top="15.0" />
+                        <Insets />
                      </VBox.margin></Button>
-                  <Label />
                </children>
             </VBox>
          </children>
