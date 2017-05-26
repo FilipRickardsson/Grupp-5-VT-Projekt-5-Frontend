@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizztoolfrontend.TeacherViewController">
+   <top>
+      <HBox styleClass="banner">
+         <children>
+            <Label text="Quizz Tool">
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox styleClass="content">
+         <children>
+            <Label styleClass="header" text="Results:" />
+            <VBox styleClass="studentView">
+               <children>
+                  <ComboBox prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
+                  <ComboBox layoutX="30.0" layoutY="57.0" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

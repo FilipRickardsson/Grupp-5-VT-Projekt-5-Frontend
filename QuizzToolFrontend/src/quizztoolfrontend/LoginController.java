@@ -58,9 +58,9 @@ public class LoginController implements Initializable {
                 root = (Parent) loader.load();
                 StudentViewController controller = (StudentViewController) loader.getController();
             } else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherView.fxml"));
                 root = (Parent) loader.load();
-                StudentViewController controller = (StudentViewController) loader.getController();
+                TeacherViewController controller = (TeacherViewController) loader.getController();
             }
             Scene scene = new Scene(root);
             stage.setScene(scene);
