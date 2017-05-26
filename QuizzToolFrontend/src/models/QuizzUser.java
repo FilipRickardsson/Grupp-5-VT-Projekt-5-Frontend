@@ -1,10 +1,13 @@
 package models;
 
+import quizztoolfrontend.QuizzUserType;
+
 public class QuizzUser {
 
     private int id;
     private String username;
     private String password;
+    private QuizzUserType quizzUserType;
 
     public QuizzUser() {
     }
@@ -31,6 +34,14 @@ public class QuizzUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public QuizzUserType getQuizzUserType() {
+        return quizzUserType;
+    }
+
+    public void setQuizzUserType(QuizzUserType quizzUserType) {
+        this.quizzUserType = quizzUserType;
     }
 
 }

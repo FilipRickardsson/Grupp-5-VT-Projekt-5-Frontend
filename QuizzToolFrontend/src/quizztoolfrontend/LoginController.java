@@ -30,10 +30,11 @@ public class LoginController implements Initializable {
     private void login(ActionEvent event) {
         try {
             if (tfUsername.getText().trim().length() > 0 && tfPassword.getText().length() > 0) {
-                QuizzUser quissUser = serverConnection.getQuizzUser(tfUsername.getText(), tfPassword.getText());
-                if (quissUser != null) {
+                QuizzUser quizzUser = serverConnection.getQuizzUser(tfUsername.getText(), tfPassword.getText());
+                if (quizzUser != null) {
+                    System.out.println(quizzUser.getQuizzUserType());
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    loadScene(stage, quissUser);
+                    loadStudentOrTeacherScene(stage, quizzUser);
                     System.out.println("Success!");
                 } else {
                     throw new IllegalArgumentException();
@@ -49,10 +50,10 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void loadScene(Stage stage, Object quizzUser) {
+    private void loadStudentOrTeacherScene(Stage stage, QuizzUser quizzUser) {
         try {
             Parent root;
-            if (quizzUser != null) {
+            if (quizzUser.getQuizzUserType() == QuizzUserType.STUDENT) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentView.fxml"));
                 root = (Parent) loader.load();
                 StudentViewController controller = (StudentViewController) loader.getController();
