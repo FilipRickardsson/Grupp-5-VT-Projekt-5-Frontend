@@ -59,7 +59,7 @@
 
 .actionButton {
     -fx-pref-width: 500px;
-    -fx-pref-height: 40px;
+    -fx-pref-height: 30px;
     -fx-font-size: 14px;
 }
 
@@ -75,4 +75,8 @@
 .alignCenter {
     -fx-alignment: TOP_CENTER;
     -fx-spacing: 20px;
+}
+
+.quizzContainer {
+    -fx-spacing: 10px;
 }
