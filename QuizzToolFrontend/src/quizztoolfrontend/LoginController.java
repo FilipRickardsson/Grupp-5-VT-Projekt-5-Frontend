@@ -1,11 +1,18 @@
 package quizztoolfrontend;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import models.QuizzUser;
 import servercommunication.ServerConnection;
 
@@ -20,13 +27,14 @@ public class LoginController implements Initializable {
     private Label lblError;
 
     @FXML
-    private void login() {
+    private void login(ActionEvent event) {
         try {
             if (tfUsername.getText().trim().length() > 0 && tfPassword.getText().length() > 0) {
                 QuizzUser quissUser = serverConnection.getQuizzUser(tfUsername.getText(), tfPassword.getText());
                 if (quissUser != null) {
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    loadScene(stage, quissUser);
                     System.out.println("Success!");
-                    lblError.setText("Success! (Change this later to change scene instead)");
                 } else {
                     throw new IllegalArgumentException();
                 }
@@ -37,7 +45,27 @@ public class LoginController implements Initializable {
             lblError.setText("Incorrect username or password.");
             tfPassword.setText("");
             System.out.println("Incorrect username or password.");
-            
+
+        }
+    }
+
+    private void loadScene(Stage stage, Object quizzUser) {
+        try {
+            Parent root;
+            if (quizzUser != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentView.fxml"));
+                root = (Parent) loader.load();
+                StudentViewController controller = (StudentViewController) loader.getController();
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentView.fxml"));
+                root = (Parent) loader.load();
+                StudentViewController controller = (StudentViewController) loader.getController();
+            }
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
