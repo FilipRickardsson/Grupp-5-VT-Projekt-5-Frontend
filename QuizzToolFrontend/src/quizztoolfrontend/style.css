@@ -44,12 +44,20 @@
     -fx-background-radius: 10;
 }
 
+.studentView {
+    -fx-pref-width: 400px;
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+    -fx-background-radius: 10;
+}
+
 .login .error {
     -fx-text-fill: red;
     -fx-font-weight: bold;  
 }
 
-.login .loginButton {
+.actionButton {
     -fx-pref-width: 500px;
     -fx-pref-height: 40px;
     -fx-font-size: 14px;
@@ -57,4 +65,14 @@
 
 .textfield {
     -fx-min-height: 35px;
+}
+
+.combobox {
+    -fx-min-height: 30px;
+    -fx-pref-width: 500px;
+}
+
+.alignCenter {
+    -fx-alignment: TOP_CENTER;
+    -fx-spacing: 20px;
 }
