@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package quizztoolfrontend;
 
 import java.net.URL;
@@ -10,21 +5,29 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import models.Course;
+import models.QuizzUser;
 
-/**
- *
- * @author Filip Rickardsson
- */
 public class StudentViewController implements Initializable {
     
     @FXML
     private Label label;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private ComboBox cbCourses, cbQuizzes;
+    
+    
+    @FXML
+    private void test(ActionEvent event) {
+        Course course = (Course)cbCourses.getSelectionModel().getSelectedItem();
+        cbQuizzes.getItems().clear();
+        cbQuizzes.getItems().setAll(course.getQuizzes());
+    }
+    
+    public void setCoursesAndQuizzes(QuizzUser quizzUser) {
+        cbCourses.getItems().addAll(quizzUser.getCourses());
     }
     
     @Override

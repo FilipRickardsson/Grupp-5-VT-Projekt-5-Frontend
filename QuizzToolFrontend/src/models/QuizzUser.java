@@ -1,5 +1,6 @@
 package models;
 
+import java.util.List;
 import quizztoolfrontend.QuizzUserType;
 
 public class QuizzUser {
@@ -8,7 +9,8 @@ public class QuizzUser {
     private String username;
     private String password;
     private QuizzUserType quizzUserType;
-
+    private List<Course> courses;
+    
     public QuizzUser() {
     }
 
@@ -42,6 +44,14 @@ public class QuizzUser {
 
     public void setQuizzUserType(QuizzUserType quizzUserType) {
         this.quizzUserType = quizzUserType;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
 }

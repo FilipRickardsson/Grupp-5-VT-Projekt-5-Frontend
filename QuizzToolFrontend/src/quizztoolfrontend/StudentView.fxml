@@ -29,8 +29,8 @@
                         <RadioButton mnemonicParsing="false" text="Completed Quizzes" />
                      </children>
                   </HBox>
-                  <ComboBox prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
-                  <ComboBox layoutX="30.0" layoutY="57.0" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
+                  <ComboBox fx:id="cbCourses" onAction="#test" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
+                  <ComboBox fx:id="cbQuizzes" layoutX="30.0" layoutY="57.0" prefWidth="150.0" promptText="Choose Quizz" styleClass="combobox" />
                   <Button disable="true" mnemonicParsing="false" styleClass="actionButton" text="Start Test" />
                </children>
             </VBox>
