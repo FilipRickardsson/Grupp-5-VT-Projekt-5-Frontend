@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -25,8 +26,11 @@
                <children>
                   <HBox styleClass="alignCenter">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="Available Quizzes" />
-                        <RadioButton mnemonicParsing="false" text="Completed Quizzes" />
+                        <RadioButton mnemonicParsing="false" selected="true" text="Available Quizzes">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="toggleGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton mnemonicParsing="false" text="Completed Quizzes" toggleGroup="$toggleGroup" />
                      </children>
                   </HBox>
                   <ComboBox fx:id="cbCourses" onAction="#test" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />

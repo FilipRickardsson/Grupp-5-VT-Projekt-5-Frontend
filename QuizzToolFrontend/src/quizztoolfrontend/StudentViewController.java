@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import models.Course;
 import models.QuizzUser;
 
@@ -25,6 +26,13 @@ public class StudentViewController implements Initializable {
         cbQuizzes.getItems().clear();
         cbQuizzes.getItems().setAll(course.getQuizzes());
     }
+    
+    @FXML ToggleGroup toggleGroup;
+    public void toggleGroupAction(ActionEvent action){
+        System.out.println("Toggle Group" + toggleGroup.getSelectedToggle().getUserData().toString());      
+        
+    }
+    
     
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
         cbCourses.getItems().addAll(quizzUser.getCourses());
