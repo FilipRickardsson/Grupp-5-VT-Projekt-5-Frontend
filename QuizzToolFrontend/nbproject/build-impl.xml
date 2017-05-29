@@ -56,6 +56,7 @@ is divided into following sections:
     </target>
     <target depends="-pre-init,-init-private,-init-user,-init-project,-init-macrodef-property" name="-do-init">
         <property name="platform.java" value="${java.home}/bin/java"/>
+        
         <available file="${manifest.file}" property="manifest.available"/>
         <condition property="splashscreen.available">
             <and>

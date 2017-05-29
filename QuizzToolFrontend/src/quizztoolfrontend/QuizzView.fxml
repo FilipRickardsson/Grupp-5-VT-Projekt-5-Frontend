@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizztoolfrontend.QuizzViewController">
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizztoolfrontend.QuizzViewController">
    <top>
       <HBox styleClass="banner">
          <children>
@@ -25,7 +25,7 @@
                   <Label styleClass="header" text="Question &lt;?&gt;/&lt;?&gt;" />
                   <VBox styleClass="quizzContainer">
                      <children>
-                        <Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec velit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus." wrapText="true" />
+                        <Label fx:id="lbl_question" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec velit magna. Interdum et malesuada fames ac ante ipsum primis in faucibus." wrapText="true" />
                         <RadioButton mnemonicParsing="false" text="Alternative 1" />
                         <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Alternative 2" />
                         <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="Alternative 3" />
@@ -33,7 +33,7 @@
                   </VBox>
                   <HBox styleClass="alignCenter">
                      <children>
-                        <Button mnemonicParsing="false" styleClass="actionButton" text="Previous" />
+                        <Button disable="true" mnemonicParsing="false" styleClass="actionButton" text="Previous" />
                         <Button mnemonicParsing="false" styleClass="actionButton" text="Submit" />
                         <Button mnemonicParsing="false" styleClass="actionButton" text="Next" />
                      </children>

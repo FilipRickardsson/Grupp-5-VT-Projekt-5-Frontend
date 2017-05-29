@@ -3,6 +3,7 @@ package servercommunication;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
+import models.Question;
 import models.QuizzUser;
 
 public class ServerConnection {
@@ -29,6 +30,14 @@ public class ServerConnection {
                 .get(QuizzUser.class);
 
         return quizzUser;
+    }
+    public synchronized Question getQuestion(int id){
+        Question question= 
+        client.target("http://localhost:8080/QuizzToolBackend/webapi/").
+                path(Integer.toString(id)).
+                request(MediaType.APPLICATION_JSON).
+                get(Question.class);
+        return question;
     }
 
 }
