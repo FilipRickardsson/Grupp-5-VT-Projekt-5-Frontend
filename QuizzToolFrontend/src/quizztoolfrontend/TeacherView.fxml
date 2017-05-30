@@ -22,9 +22,9 @@
             <Label styleClass="header" text="Results:" />
             <VBox styleClass="studentView">
                <children>
-                  <ComboBox prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
-                  <ComboBox layoutX="30.0" layoutY="57.0" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ComboBox fx:id="cbCourses" onAction="#onCourseChange" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
+                  <ComboBox fx:id="cbQuizzes" layoutX="30.0" layoutY="57.0" onAction="#onQuizzChange" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
+                  <ListView fx:id="lwResult" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
