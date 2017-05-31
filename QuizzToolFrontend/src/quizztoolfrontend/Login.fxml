@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,11 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizztoolfrontend.LoginController">
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizztoolfrontend.LoginController">
    <top>
       <HBox styleClass="banner">
          <children>
-            <Label text="Quizz Tool">
+            <Label alignment="TOP_LEFT" contentDisplay="TOP" text="Quizz Tool">
             </Label>
          </children>
       </HBox>
@@ -25,9 +29,9 @@
             <VBox styleClass="login">
                <children>
                   <Label text="Username:" />
-                  <TextField fx:id="tfUsername" styleClass="textfield" />
+                  <TextField fx:id="tfUsername" promptText="Enter valid username" styleClass="textfield" />
                   <Label text="Password:" />
-                  <PasswordField fx:id="tfPassword" styleClass="textfield" />
+                  <PasswordField fx:id="tfPassword" promptText="Enter correct password" styleClass="textfield" />
                   <Label fx:id="lblError" styleClass="error" />
                   <Button mnemonicParsing="false" onAction="#login" styleClass="actionButton" text="Login">
                      <VBox.margin>

@@ -54,7 +54,7 @@
 
 .login .error {
     -fx-text-fill: red;
-    -fx-font-weight: bold;  
+    -fx-font-weight: bold;
 }
 
 .actionButton {
