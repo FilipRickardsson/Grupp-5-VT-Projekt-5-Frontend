@@ -31,7 +31,7 @@ public class TeacherViewController implements Initializable {
     @FXML
     private PieChart chGrades;
 
-    private ObservableList<String> olResult;
+    private ObservableList<Data> olResult;
 
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
         cbCourses.getItems().addAll(quizzUser.getCourses());
@@ -53,18 +53,18 @@ public class TeacherViewController implements Initializable {
                 olResult.clear();
 
                 int[] statistics = calcStatistics(quizzResults);
-
-                olResult.add("Total Points: " + statistics[0]);
+                chGrades.setData(olResult);
+               // olResult.add("Total Points: " + statistics[0]);
                 double avg = statistics[0] * 1.0 / quizzResults.size();
-                olResult.add("Average Points: " + avg);
-                olResult.add("Grades:");
-                olResult.add("IG: " + statistics[1]);
-                olResult.add("G: " + statistics[2]);
-                olResult.add("VG: " + statistics[3]);
+               // olResult.add("Average Points: " + avg);
+               // olResult.add("Grades:");
+               // olResult.add("IG: " + statistics[1]);
+               // olResult.add("G: " + statistics[2]);
+               // olResult.add("VG: " + statistics[3]);
 
             } else {
                 olResult.clear();
-                olResult.add("Nothing submitted");
+              //  olResult.add("Nothing submitted");
             }
         } else {
             olResult.clear();
@@ -76,7 +76,7 @@ public class TeacherViewController implements Initializable {
         int ig = 0;
         int g = 0;
         int vg = 0;
-
+        
         for (QuizzResult qr : quizzResults) {
             sum += qr.getPoints();
             if (qr.getGrade() == GradeType.IG) {
@@ -100,8 +100,9 @@ public class TeacherViewController implements Initializable {
         ObservableList <Data> olData = FXCollections.observableArrayList();
         chGrades.setData(olData);
         double i = 5.3;
-        olData.add(new Data("G: " +i, i));
-        olData.add(new Data("IG: ", 1.3));
+        double f = 4;
+        olData.add(new Data("IG: ",  i));
+        olData.add(new Data("VG: ", f));
     }
 
 }
