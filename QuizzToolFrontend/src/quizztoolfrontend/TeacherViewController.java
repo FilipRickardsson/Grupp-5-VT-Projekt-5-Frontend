@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import models.Course;
@@ -26,6 +28,8 @@ public class TeacherViewController implements Initializable {
 
     @FXML
     private ListView lwResult;
+    @FXML
+    private PieChart chGrades;
 
     private ObservableList<String> olResult;
 
@@ -93,6 +97,11 @@ public class TeacherViewController implements Initializable {
 
         olResult = FXCollections.observableArrayList();
         lwResult.setItems(olResult);
+        ObservableList <Data> olData = FXCollections.observableArrayList();
+        chGrades.setData(olData);
+        double i = 5.3;
+        olData.add(new Data("G: " +i, i));
+        olData.add(new Data("IG: ", 1.3));
     }
 
 }
