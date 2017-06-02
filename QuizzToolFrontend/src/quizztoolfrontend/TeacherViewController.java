@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import models.Course;
@@ -26,8 +27,12 @@ public class TeacherViewController implements Initializable {
 
     @FXML
     private ListView lwResult;
-
-    private ObservableList<String> olResult;
+    
+    @FXML
+    private ObservableList<PieChart.Data> olResult;
+    
+    @FXML
+    PieChart chGrades;
 
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
         cbCourses.getItems().addAll(quizzUser.getCourses());
@@ -49,18 +54,18 @@ public class TeacherViewController implements Initializable {
                 olResult.clear();
 
                 int[] statistics = calcStatistics(quizzResults);
-
-                olResult.add("Total Points: " + statistics[0]);
+                
+               // olResult.add(new PieChart.Data ("Total Points: ", statistics[0] ));
                 double avg = statistics[0] * 1.0 / quizzResults.size();
-                olResult.add("Average Points: " + avg);
-                olResult.add("Grades:");
-                olResult.add("IG: " + statistics[1]);
-                olResult.add("G: " + statistics[2]);
-                olResult.add("VG: " + statistics[3]);
-
+                //olResult.add(new PieChart.Data ("Average Points: ", avg));
+               // olResult.add("Grades:");
+                olResult.add(new PieChart.Data ("IG: ", statistics[1]));
+                olResult.add(new PieChart.Data ("G: ", statistics[2]));
+                olResult.add(new PieChart.Data ("VG: ", statistics[3]));
+                chGrades.setData(olResult);
             } else {
                 olResult.clear();
-                olResult.add("Nothing submitted");
+                //olResult.add("Nothing submitted");
             }
         } else {
             olResult.clear();
@@ -93,6 +98,7 @@ public class TeacherViewController implements Initializable {
 
         olResult = FXCollections.observableArrayList();
         lwResult.setItems(olResult);
+       
     }
 
 }
