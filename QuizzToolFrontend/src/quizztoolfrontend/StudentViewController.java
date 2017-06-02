@@ -30,6 +30,8 @@ public class StudentViewController implements Initializable {
     @FXML
     private Button startTest;
 
+    private Quizz selectedQuizz;
+
     @FXML
     private void onCourseChange(ActionEvent event) {
         Course course = (Course) cbCourses.getSelectionModel().getSelectedItem();
@@ -41,6 +43,7 @@ public class StudentViewController implements Initializable {
     private void onQuizzChange(ActionEvent event) {
         Quizz quizz = (Quizz) cbQuizzes.getSelectionModel().getSelectedItem();
         if (quizz != null) {
+            selectedQuizz = quizz;
             startTest.setDisable(false);
         } else {
             startTest.setDisable(true);
@@ -56,13 +59,14 @@ public class StudentViewController implements Initializable {
 
     @FXML
     private void startQuizz(ActionEvent event) throws IOException {
-        Parent root1 = FXMLLoader.load(getClass().getResource("QuizzView.fxml"));
-        Scene scene = new Scene(root1);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizzView.fxml"));
+        Parent root = (Parent) loader.load();
+        QuizzViewController controller = (QuizzViewController) loader.getController();
+        controller.getQuestions(selectedQuizz.getQuizzId());
+        controller.setQuizzTitle(selectedQuizz.getName());
+        Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.show();
-        
-
     }
 
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
