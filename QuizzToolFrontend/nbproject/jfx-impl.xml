@@ -695,7 +695,6 @@
                     <isset property="do.set.jfxrt.in.jre.new"/>
                     <isset property="do.set.jfxrt.in.envjdk.jre.old"/>
                     <isset property="do.set.jfxrt.in.envjdk.jre.new"/>
-                    
                 </or>
                 <isset property="jfxrt.jar.location"/>
             </and>
@@ -1155,8 +1154,6 @@
     
     <!-- Note: target "-jfx-copylibs" is referenced from NB 7.1 build-impl.xml -->
     <target name="-jfx-copylibs" depends="init,compile,-pre-pre-jar,-pre-jar,-jfx-copylibs-warning" unless="fallback.no.javascript">
-
-
         <jfx-copylibs-js-impl/>
     </target>
     <target name="-jfx-copylibs-warning" if="fallback.no.javascript">
@@ -1234,7 +1231,6 @@
             </script>
             <echo message="run.and.lib.classpath = ${run.and.lib.classpath}" level="verbose"/>
             <delete dir="${dist.dir}${file.separator}lib" includeEmptyDirs="true" quiet="true"/>
-
             <copy todir="${dist.dir}${file.separator}lib" flatten="true" preservelastmodified="true" overwrite="true">
                 <path>
                     <pathelement path="${run.and.lib.classpath}"/>
