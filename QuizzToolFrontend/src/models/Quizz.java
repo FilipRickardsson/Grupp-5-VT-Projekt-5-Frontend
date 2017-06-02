@@ -1,14 +1,19 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Quizz {
 
     private int quizzId;
     private String name;
     private boolean showResult;
+    private List<Question> questions;
 
     public Quizz() {
+        this.questions=new ArrayList<Question>();
     }
-
+  
     public int getQuizzId() {
         return quizzId;
     }
@@ -36,6 +41,14 @@ public class Quizz {
     @Override
     public String toString() {
         return name;
+    }
+    
+    public List<Question> getQuestions() {
+        return questions;
+    }
+    
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
     
 }

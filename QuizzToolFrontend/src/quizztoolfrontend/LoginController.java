@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import models.QuizzUser;
 import servercommunication.ServerConnection;
 
+
 public class LoginController implements Initializable {
 
     private ServerConnection serverConnection;
@@ -32,6 +33,7 @@ public class LoginController implements Initializable {
             if (tfUsername.getText().trim().length() > 0 && tfPassword.getText().length() > 0) {
                 QuizzUser quizzUser = serverConnection.getQuizzUser(tfUsername.getText(), tfPassword.getText());
                 if (quizzUser != null) {
+                   
                     System.out.println(quizzUser.getQuizzUserType());
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     loadStudentOrTeacherScene(stage, quizzUser);

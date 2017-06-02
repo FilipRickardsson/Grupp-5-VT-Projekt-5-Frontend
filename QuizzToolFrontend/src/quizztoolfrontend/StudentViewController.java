@@ -27,24 +27,31 @@ public class StudentViewController implements Initializable {
     @FXML
     private ComboBox cbCourses, cbQuizzes;
     
+    
     @FXML
     private Button startTest;
     private Singelton singelton;
     
     @FXML
-    private void test(ActionEvent event) {
+    private void courseWasSelected(ActionEvent event) {
         
         Course course = (Course)cbCourses.getSelectionModel().getSelectedItem();
         cbQuizzes.getItems().clear();
         cbQuizzes.getItems().setAll(course.getQuizzes());
         Quizz quizz = (Quizz)cbQuizzes.getSelectionModel().getSelectedItem();
         
-        //singelton.setX(quizz.getQuizzId());
+        
+       // singelton.setX(quizz.getQuizzId());
         
     }
     
+    
+    
     @FXML
-    private void enableStartTest(ActionEvent event) {
+    private void quizzWasSelected(ActionEvent event) {
+        
+        
+        //--------------Enable Start Test Button
         Quizz quizz = (Quizz)cbQuizzes.getSelectionModel().getSelectedItem();
         
         startTest.setDisable(false);
@@ -59,19 +66,40 @@ public class StudentViewController implements Initializable {
     
     @FXML
     private void startQuizz(ActionEvent event) throws IOException {
-        Parent root1 = FXMLLoader.load(getClass().getResource("QuizzView.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizzView.fxml"));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+               Parent root = (Parent) loader.load();
+                QuizzViewController controller = (QuizzViewController) loader.getController();
+                Quizz quizz = (Quizz)cbQuizzes.getSelectionModel().getSelectedItem();
+                controller.setQuizzId(quizz.getQuizzId());
+             
+                
+                
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                
+            } 
+        
+        
+        /*     Parent root1 = FXMLLoader.load(getClass().getResource("QuizzView.fxml"));
         Scene scene = new Scene(root1);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.show();
+        stage.show();} */
+   
         
         
-    }
+    
+    
+    
+    
     
     
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
         cbCourses.getItems().addAll(quizzUser.getCourses());
     }
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
