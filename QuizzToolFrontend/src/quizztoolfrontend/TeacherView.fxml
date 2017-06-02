@@ -29,7 +29,7 @@
                   <ComboBox fx:id="cbCourses" onAction="#onCourseChange" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
                   <ComboBox fx:id="cbQuizzes" layoutX="30.0" layoutY="57.0" onAction="#onQuizzChange" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
                   <ListView fx:id="lwResult" prefHeight="200.0" prefWidth="200.0" />
-                  <PieChart fx:id="chGrades" />
+                  <PieChart fx:id="chGrades" prefHeight="201.0" prefWidth="420.0" />
                </children>
             </VBox>
          </children>
