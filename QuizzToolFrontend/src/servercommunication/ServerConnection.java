@@ -64,4 +64,14 @@ public class ServerConnection {
         return quizzResult;
     }
 
+    public List<QuizzResult> getUserQuizzResults(int userId) {
+        List<QuizzResult> quizzResult = client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("quizzresults/userresults/" + userId)
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<QuizzResult>>() {
+                });
+
+        return quizzResult;
+    }
+
 }
