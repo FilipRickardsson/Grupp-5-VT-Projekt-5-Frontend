@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -33,7 +34,14 @@ public class TeacherViewController implements Initializable {
     @FXML
     private ListView lwResult;
 
+    @FXML
     private ObservableList<String> olResult;
+
+    @FXML
+    private ObservableList<PieChart.Data> olPie;
+
+    @FXML
+    PieChart chGrades;
 
     public void setCoursesAndQuizzes(QuizzUser quizzUser) {
         cbCourses.getItems().addAll(quizzUser.getCourses());
@@ -43,6 +51,8 @@ public class TeacherViewController implements Initializable {
     private void onCourseChange(ActionEvent event) {
         Course course = (Course) cbCourses.getSelectionModel().getSelectedItem();
         cbQuizzes.getItems().clear();
+        olResult.clear();
+        olPie.clear();
         cbQuizzes.getItems().setAll(course.getQuizzes());
     }
 
@@ -53,23 +63,38 @@ public class TeacherViewController implements Initializable {
             List<QuizzResult> quizzResults = serverConnection.getQuizzResult(quizz.getQuizzId());
             if (quizzResults.size() > 0) {
                 olResult.clear();
+                olPie.clear();
 
                 int[] statistics = calcStatistics(quizzResults);
-
-                olResult.add("Total Points: " + statistics[0]);
                 double avg = statistics[0] * 1.0 / quizzResults.size();
+
                 olResult.add("Average Points: " + avg);
-                olResult.add("Grades:");
-                olResult.add("IG: " + statistics[1]);
-                olResult.add("G: " + statistics[2]);
-                olResult.add("VG: " + statistics[3]);
+
+                olResult.add("Individual Grades:");
+                for (QuizzResult qr : quizzResults) {
+                    olResult.add("Name: " + ", Grade: " + qr.getGrade() + ", Points: " + qr.getPoints());
+                }
+
+                if (statistics[1] > 0) {
+                    olPie.add(new PieChart.Data("IG: " + statistics[1], statistics[1]));
+                }
+
+                System.out.println(statistics[2]);
+                if (statistics[2] > 0) {
+                    olPie.add(new PieChart.Data("G: " + statistics[2], statistics[2]));
+                }
+
+                if (statistics[3] > 0) {
+                    olPie.add(new PieChart.Data("VG: " + statistics[3], statistics[3]));
+                }
 
             } else {
+                olPie.clear();
                 olResult.clear();
                 olResult.add("Nothing submitted");
             }
         } else {
-            olResult.clear();
+            olPie.clear();
         }
     }
 
@@ -111,7 +136,10 @@ public class TeacherViewController implements Initializable {
         serverConnection = ServerConnection.getServerConnection();
 
         olResult = FXCollections.observableArrayList();
+        olPie = FXCollections.observableArrayList();
+
         lwResult.setItems(olResult);
+        chGrades.setData(olPie);
     }
 
 }
