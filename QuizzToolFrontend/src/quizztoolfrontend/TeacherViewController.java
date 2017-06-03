@@ -72,7 +72,7 @@ public class TeacherViewController implements Initializable {
 
                 olResult.add("Individual Grades:");
                 for (QuizzResult qr : quizzResults) {
-                    olResult.add("Name: " + ", Grade: " + qr.getGrade() + ", Points: " + qr.getPoints());
+                    olResult.add("Name: " + qr.getQuizzUser().getUsername() + ", Grade: " + qr.getGrade() + ", Points: " + qr.getPoints());
                 }
 
                 if (statistics[1] > 0) {
