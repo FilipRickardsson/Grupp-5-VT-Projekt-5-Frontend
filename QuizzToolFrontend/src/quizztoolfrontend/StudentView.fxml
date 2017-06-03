@@ -13,8 +13,13 @@
    <top>
       <HBox styleClass="banner">
          <children>
-            <Label text="Quizz Tool">
+            <VBox>
+               <children>
+                  <Label text="Quizz Tool">
             </Label>
+                  <Button mnemonicParsing="false" onAction="#logout" styleClass="logout" text="Logout" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </top>

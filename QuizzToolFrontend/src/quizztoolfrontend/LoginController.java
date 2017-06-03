@@ -58,6 +58,7 @@ public class LoginController implements Initializable {
                 root = (Parent) loader.load();
                 StudentViewController controller = (StudentViewController) loader.getController();
                 controller.setCoursesAndQuizzes(quizzUser);
+                controller.setUserId(quizzUser.getId());
             } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherView.fxml"));
                 root = (Parent) loader.load();

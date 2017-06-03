@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -11,8 +12,13 @@
    <top>
       <HBox styleClass="banner">
          <children>
-            <Label text="Quizz Tool">
+            <VBox>
+               <children>
+                  <Label text="Quizz Tool">
             </Label>
+                  <Button mnemonicParsing="false" onAction="#logout" styleClass="logout" text="Logout" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </top>
