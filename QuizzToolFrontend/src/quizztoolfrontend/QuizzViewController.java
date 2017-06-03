@@ -1,18 +1,26 @@
 package quizztoolfrontend;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Alternative;
 import models.Question;
+import models.QuizzResult;
 import servercommunication.ServerConnection;
 
 public class QuizzViewController implements Initializable {
@@ -27,16 +35,32 @@ public class QuizzViewController implements Initializable {
     private Label lblQuizzName, lblQuestion, lblQuestionText;
 
     @FXML
-    private VBox vbAlternatives;
+    private VBox vbAlternatives, vbQuizzContainer;
 
     @FXML
     private Button btnPrevious, btnNext;
 
     private List<Integer> answers = new ArrayList();
 
+    private int quizzId;
+
+    private int userId;
+
     public void getQuestions(int quizzId) {
+        this.quizzId = quizzId;
         questions = serverConnection.getQuestions(quizzId);
+        initQuizzAnsers();
         setQuestion();
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    private void initQuizzAnsers() {
+        for (int i = 0; i < questions.size(); i++) {
+            answers.add(-1);
+        }
     }
 
     public void setQuizzTitle(String quizzTitle) {
@@ -96,23 +120,59 @@ public class QuizzViewController implements Initializable {
     }
 
     private void collectAnswer() {
-//        System.out.println(((RadioButton) item).isSelected()
-        Alternative chosenAlternative = null;
-        System.out.println("--------");
-        vbAlternatives.getChildren().forEach(item -> {
-            if (((RadioButton) item).isSelected()) {
-                chosenAlternative = (Alternative)item.getUserData();
-            }
-        });
         System.out.println("--------");
 
-        answers.add(currentQuestion, chosenAlternative.getAlternativeId());
+        for (Node node : vbAlternatives.getChildrenUnmodifiable()) {
+            if (node instanceof RadioButton) {
+                RadioButton rb = (RadioButton) node;
+                if (rb.isSelected()) {
+                    answers.set(currentQuestion, ((Alternative) rb.getUserData()).getAlternativeId());
+                }
+            }
+        }
+
+        for (Integer i : answers) {
+            System.out.println(i);
+        }
+
+//        answers.add(currentQuestion, chosenAlternative.getAlternativeId());
+        System.out.println("--------");
     }
 
     @FXML
     private void submit() {
         collectAnswer();
-        System.out.println("Submit!");
+
+        String serializedAnswers = answers.toString().replace("[", "").replace("]", "").replace(" ", "").trim();
+        System.out.println(serializedAnswers);
+
+        QuizzResult quizzResult = serverConnection.submitAnswers(userId, quizzId, serializedAnswers);
+
+        Label lblHeader = new Label("The quizz has been submitted.");
+        lblHeader.getStyleClass().add("header");
+        vbQuizzContainer.getChildren().clear();
+
+        vbQuizzContainer.getChildren().add(lblHeader);
+
+        if (quizzResult != null) {
+            System.out.println("Debaggor 4: " + quizzResult.toString());
+            Label lblResult = new Label("Your Result:\nGrade: " + quizzResult.getGrade() + "\nPoints: " + quizzResult.getPoints());
+            vbQuizzContainer.getChildren().add(lblResult);
+        }
+
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+            Parent root = (Parent) loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

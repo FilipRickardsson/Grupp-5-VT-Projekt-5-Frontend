@@ -10,8 +10,13 @@
    <top>
       <HBox styleClass="banner">
          <children>
-            <Label text="Quizz Tool">
+            <VBox>
+               <children>
+                  <Label text="Quizz Tool">
             </Label>
+                  <Button mnemonicParsing="false" onAction="#logout" styleClass="logout" text="Logout" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </top>
@@ -19,7 +24,7 @@
       <VBox styleClass="content">
          <children>
             <Label fx:id="lblQuizzName" styleClass="header" text="&lt;Testname&gt;" />
-            <VBox styleClass="studentView">
+            <VBox fx:id="vbQuizzContainer" styleClass="studentView">
                <children>
                   <Label fx:id="lblQuestion" styleClass="header" text="Question &lt;?&gt;/&lt;?&gt;" />
                   <VBox styleClass="quizzContainer">

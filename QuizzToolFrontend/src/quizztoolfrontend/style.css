@@ -80,3 +80,9 @@
 .quizzContainer {
     -fx-spacing: 10px;
 }
+
+.logout {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-text-fill: white;
+}
