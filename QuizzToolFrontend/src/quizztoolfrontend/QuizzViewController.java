@@ -1,6 +1,7 @@
 package quizztoolfrontend;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -31,6 +32,8 @@ public class QuizzViewController implements Initializable {
     @FXML
     private Button btnPrevious, btnNext;
 
+    private List<Integer> answers = new ArrayList();
+
     public void getQuestions(int quizzId) {
         questions = serverConnection.getQuestions(quizzId);
         setQuestion();
@@ -42,6 +45,8 @@ public class QuizzViewController implements Initializable {
 
     @FXML
     private void nextQuestion() {
+        collectAnswer();
+
         if (currentQuestion + 1 <= questions.size()) {
             currentQuestion++;
             setQuestion();
@@ -50,6 +55,8 @@ public class QuizzViewController implements Initializable {
 
     @FXML
     private void previousQuestion() {
+        collectAnswer();
+
         if (currentQuestion - 1 >= 0) {
             currentQuestion--;
             setQuestion();
@@ -67,6 +74,7 @@ public class QuizzViewController implements Initializable {
         for (Alternative a : question.getAlternatives()) {
             RadioButton rb = new RadioButton(a.getText());
             rb.setToggleGroup(toggleGroupAlternatives);
+            rb.setUserData(a);
             vbAlternatives.getChildren().add(rb);
         }
 
@@ -85,6 +93,26 @@ public class QuizzViewController implements Initializable {
             btnPrevious.setDisable(false);
             btnNext.setDisable(false);
         }
+    }
+
+    private void collectAnswer() {
+//        System.out.println(((RadioButton) item).isSelected()
+        Alternative chosenAlternative = null;
+        System.out.println("--------");
+        vbAlternatives.getChildren().forEach(item -> {
+            if (((RadioButton) item).isSelected()) {
+                chosenAlternative = (Alternative)item.getUserData();
+            }
+        });
+        System.out.println("--------");
+
+        answers.add(currentQuestion, chosenAlternative.getAlternativeId());
+    }
+
+    @FXML
+    private void submit() {
+        collectAnswer();
+        System.out.println("Submit!");
     }
 
     @Override
