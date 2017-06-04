@@ -121,7 +121,6 @@ public class StudentViewController implements Initializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-        System.out.println("Debagger: " + userId);
     }
 
     @FXML
@@ -135,7 +134,6 @@ public class StudentViewController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override

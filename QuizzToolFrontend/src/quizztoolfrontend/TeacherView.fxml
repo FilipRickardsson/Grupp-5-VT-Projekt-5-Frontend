@@ -30,9 +30,10 @@
             <VBox styleClass="studentView">
                <children>
                   <ComboBox fx:id="cbCourses" onAction="#onCourseChange" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
-                  <ComboBox fx:id="cbQuizzes" layoutX="30.0" layoutY="57.0" onAction="#onQuizzChange" prefWidth="150.0" promptText="Choose Test" styleClass="combobox" />
+                  <ComboBox fx:id="cbQuizzes" layoutX="30.0" layoutY="57.0" onAction="#onQuizzChange" prefWidth="150.0" promptText="Choose Quizz" styleClass="combobox" />
                   <ListView fx:id="lwResult" />
                   <PieChart fx:id="chGrades" />
+                  <Button mnemonicParsing="false" onAction="#addQuizz" styleClass="actionButton" text="Add Quizz" />
                </children>
             </VBox>
          </children>
