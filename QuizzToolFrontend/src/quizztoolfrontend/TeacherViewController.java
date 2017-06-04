@@ -131,6 +131,26 @@ public class TeacherViewController implements Initializable {
         }
     }
 
+    @FXML
+    private void addQuizz(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuizz.fxml"));
+            Parent root = (Parent) loader.load();
+            AddQuizzController controller = (AddQuizzController) loader.getController();
+//            controller.addQuestion();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getCoursesAndQuizzes() {
+        QuizzUser qu = serverConnection.getQuizzUser(LoggedInCredentials.getUsername(), LoggedInCredentials.getPassword());
+        setCoursesAndQuizzes(qu);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         serverConnection = ServerConnection.getServerConnection();

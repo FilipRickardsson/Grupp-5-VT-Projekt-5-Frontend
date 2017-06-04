@@ -3,9 +3,12 @@ package servercommunication;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import models.Course;
 import models.Question;
+import models.Quizz;
 import models.QuizzResult;
 import models.QuizzUser;
 
@@ -72,6 +75,22 @@ public class ServerConnection {
                 });
 
         return quizzResult;
+    }
+
+    public void addQuizz(Quizz quizzToAdd) {
+        client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("quizzes/")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(quizzToAdd), Quizz.class);
+    }
+
+    public List<Course> getCourses() {
+        List<Course> courses = client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("courses/")
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Course>>() {
+                });
+        return courses;
     }
 
 }

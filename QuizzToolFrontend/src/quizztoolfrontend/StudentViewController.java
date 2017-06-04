@@ -23,7 +23,6 @@ import models.Course;
 import models.Quizz;
 import models.QuizzResult;
 import models.QuizzUser;
-import static org.eclipse.persistence.internal.jpa.metadata.xml.XMLEntityMappingsReader.clear;
 import servercommunication.ServerConnection;
 
 public class StudentViewController implements Initializable {
@@ -121,7 +120,6 @@ public class StudentViewController implements Initializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-        System.out.println("Debagger: " + userId);
     }
 
     @FXML
@@ -135,7 +133,6 @@ public class StudentViewController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override
