@@ -104,3 +104,8 @@
     -fx-spacing: 20px;
     -fx-background-radius: 10;
 }
+
+.error {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;  
+}

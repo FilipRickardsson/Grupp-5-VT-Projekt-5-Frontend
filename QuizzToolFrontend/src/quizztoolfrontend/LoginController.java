@@ -33,6 +33,10 @@ public class LoginController implements Initializable {
                 QuizzUser quizzUser = serverConnection.getQuizzUser(tfUsername.getText(), tfPassword.getText());
                 if (quizzUser != null) {
                     System.out.println(quizzUser.getQuizzUserType());
+
+                    LoggedInCredentials.setUsername(tfUsername.getText());
+                    LoggedInCredentials.setPassword(tfPassword.getText());
+
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     loadStudentOrTeacherScene(stage, quizzUser);
                     System.out.println("Success!");

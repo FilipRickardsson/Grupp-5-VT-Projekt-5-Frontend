@@ -18,6 +18,7 @@
                     <children>
                         <Label text="Quizz Tool">
                         </Label>
+                  <Button mnemonicParsing="false" onAction="#logout" styleClass="logout" text="Logout" />
 
                     </children>
                 </VBox>
@@ -43,6 +44,8 @@
                            </children>
                         </HBox>
                         <Button fx:id="btnCreateQuizz" mnemonicParsing="false" onAction="#createQuizz" styleClass="actionButton" text="Create Quizz" />
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#loadPreviousScene" styleClass="actionButton" text="Cancel" />
+                        <Label fx:id="lblError" styleClass="error" />
                           </children>
                       </VBox>
                </content>

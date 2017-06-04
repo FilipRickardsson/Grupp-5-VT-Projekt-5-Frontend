@@ -1,20 +1,27 @@
 package quizztoolfrontend;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Alternative;
 import models.Course;
 import models.Question;
@@ -23,11 +30,16 @@ import servercommunication.ServerConnection;
 
 public class AddQuizzController implements Initializable {
 
+    ServerConnection serverConnection;
+
     @FXML
     private TextField tfQuizzName;
 
     @FXML
     private CheckBox chbShowResult;
+
+    @FXML
+    private ComboBox cbCourses;
 
     @FXML
     private VBox vbContent;
@@ -43,6 +55,14 @@ public class AddQuizzController implements Initializable {
     private List<VBox> alternativeContainers;
 
     private int nbrOfQuestions;
+
+    @FXML
+    Label lblError;
+    
+    @FXML
+    Button btnCancel;
+
+    private boolean valid = true;
 
     @FXML
     private void addQuestion() {
@@ -97,6 +117,8 @@ public class AddQuizzController implements Initializable {
 
         hbAddRemoveQuestion.toFront();
         btnCreateQuizz.toFront();
+        btnCancel.toFront();
+        lblError.toFront();
 
         nbrOfQuestions++;
     }
@@ -150,55 +172,116 @@ public class AddQuizzController implements Initializable {
     }
 
     @FXML
-    private void createQuizz() {
+    private void createQuizz(ActionEvent event) {
         System.out.println("create Quizz");
+        Button btn = (Button) event.getSource();
+        valid = true;
+        if (validateInput((Pane) btn.getParent())) {
+            List<Question> questions = new ArrayList();
+            int currentQuestion = 0;
+            for (VBox vb : questionContainers) {
+                Question question = new Question();
 
-        List<Question> questions = new ArrayList();
-        int currentQuestion = 0;
-        for (VBox vb : questionContainers) {
-            Question question = new Question();
-
-            for (Node node : vb.getChildrenUnmodifiable()) {
-                if (node instanceof TextArea) {
-                    TextArea ta = (TextArea) node;
-                    question.setText(ta.getText());
+                for (Node node : vb.getChildrenUnmodifiable()) {
+                    if (node instanceof TextArea) {
+                        TextArea ta = (TextArea) node;
+                        question.setText(ta.getText());
+                    }
                 }
-            }
 
-            List<Alternative> alternatives = new ArrayList();
+                List<Alternative> alternatives = new ArrayList();
 
-            for (Node node : alternativeContainers.get(currentQuestion).getChildrenUnmodifiable()) {
-                if (node instanceof TextField) {
-                    Alternative alt = new Alternative();
+                for (Node node : alternativeContainers.get(currentQuestion).getChildrenUnmodifiable()) {
+                    if (node instanceof TextField) {
+                        Alternative alt = new Alternative();
 
-                    TextField ta = (TextField) node;
-                    alt.setText(ta.getText() + "");
-                    alt.setCorrect(false);
+                        TextField ta = (TextField) node;
+                        alt.setText(ta.getText());
+                        alt.setCorrect(false);
 //                    alt.setQuestions(questions);
-                    alternatives.add(alt);
+                        alternatives.add(alt);
+                    }
                 }
+
+                question.setAlternatives(alternatives);
+                questions.add(question);
+                currentQuestion++;
             }
 
-            question.setAlternatives(alternatives);
-            questions.add(question);
-            currentQuestion++;
+            Quizz quizz = new Quizz();
+            quizz.setQuestions(questions);
+            quizz.setName(tfQuizzName.getText());
+            quizz.setShowResult(chbShowResult.isSelected());
+            List<Course> courses = new ArrayList();
+            courses.add((Course) cbCourses.getSelectionModel().getSelectedItem());
+            quizz.setCourses(courses);
+
+            serverConnection.addQuizz(quizz);
+            System.out.println("Create Quizz Success");
+
+            loadPreviousScene(event);
+        } else {
+            lblError.setText("All fields must be filled in.");
+            System.out.println("Create Quizz Error");
         }
+    }
 
-        Quizz quizz = new Quizz();
-        quizz.setQuestions(questions);
-        quizz.setName("Placeholder");
-        quizz.setShowResult(true);
-        List<Course> courses = new ArrayList();
-        Course course = new Course();
-        course.setId(1);
-        courses.add(course);
-        quizz.setCourses(courses);
+    @FXML
+    private void loadPreviousScene(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherView.fxml"));
+            Parent root = (Parent) loader.load();
+            TeacherViewController controller = (TeacherViewController) loader.getController();
+            controller.getCoursesAndQuizzes();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        ServerConnection.getServerConnection().addQuizz(quizz);
+    private boolean validateInput(Pane parent) {
+        for (Node node : parent.getChildren()) {
+            if (node instanceof Pane) {
+                validateInput((Pane) node);
+            } else if (node instanceof TextField) {
+                TextField tf = (TextField) node;
+                System.out.println("tf text: " + tf.getText());
+                if (tf.getText().trim().length() < 1) {
+                    valid = false;
+                    break;
+                }
+            } else if (node instanceof TextArea) {
+                TextArea ta = (TextArea) node;
+                System.out.println("ta");
+                if (ta.getText().trim().length() < 1) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        return valid;
+    }
+
+    @FXML
+    private void logout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+            Parent root = (Parent) loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        serverConnection = ServerConnection.getServerConnection();
+        cbCourses.getItems().setAll(serverConnection.getCourses());
+
         nbrOfQuestions = 0;
         questionContainers = new ArrayList();
         alternativeContainers = new ArrayList();

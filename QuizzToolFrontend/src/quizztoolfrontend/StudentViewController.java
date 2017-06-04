@@ -23,7 +23,6 @@ import models.Course;
 import models.Quizz;
 import models.QuizzResult;
 import models.QuizzUser;
-import static org.eclipse.persistence.internal.jpa.metadata.xml.XMLEntityMappingsReader.clear;
 import servercommunication.ServerConnection;
 
 public class StudentViewController implements Initializable {

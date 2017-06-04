@@ -146,6 +146,11 @@ public class TeacherViewController implements Initializable {
         }
     }
 
+    public void getCoursesAndQuizzes() {
+        QuizzUser qu = serverConnection.getQuizzUser(LoggedInCredentials.getUsername(), LoggedInCredentials.getPassword());
+        setCoursesAndQuizzes(qu);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         serverConnection = ServerConnection.getServerConnection();
