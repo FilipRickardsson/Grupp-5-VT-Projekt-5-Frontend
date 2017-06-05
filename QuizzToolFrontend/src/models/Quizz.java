@@ -13,7 +13,7 @@ public class Quizz {
 
     private List<Question> questions;
 
-    private List<Course> courses;
+    private Course course;
 
     public Quizz() {
     }
@@ -50,12 +50,12 @@ public class Quizz {
         this.questions = questions;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getStartTime() {

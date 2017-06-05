@@ -58,7 +58,7 @@ public class AddQuizzController implements Initializable {
 
     @FXML
     Label lblError;
-    
+
     @FXML
     Button btnCancel;
 
@@ -212,9 +212,10 @@ public class AddQuizzController implements Initializable {
             quizz.setQuestions(questions);
             quizz.setName(tfQuizzName.getText());
             quizz.setShowResult(chbShowResult.isSelected());
-            List<Course> courses = new ArrayList();
-            courses.add((Course) cbCourses.getSelectionModel().getSelectedItem());
-            quizz.setCourses(courses);
+            
+            Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
+            System.out.println("Debagger: " + c.getId());
+            quizz.setCourse(c);
 
             serverConnection.addQuizz(quizz);
             System.out.println("Create Quizz Success");

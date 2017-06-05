@@ -7,6 +7,8 @@ public class Question {
     private int id;
     private String text;
 
+    private Quizz quizz;
+
     private List<Alternative> alternatives;
 
     public Question() {
@@ -39,6 +41,14 @@ public class Question {
 
     public void setAlternatives(List<Alternative> alternatives) {
         this.alternatives = alternatives;
+    }
+
+    public Quizz getQuizz() {
+        return quizz;
+    }
+
+    public void setQuizz(Quizz quizz) {
+        this.quizz = quizz;
     }
 
     @Override
