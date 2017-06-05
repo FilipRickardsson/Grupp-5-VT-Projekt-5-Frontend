@@ -45,4 +45,7 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <Label fx:id="lblTimeLeft" text="HH:MM" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

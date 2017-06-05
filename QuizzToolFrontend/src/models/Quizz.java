@@ -8,6 +8,9 @@ public class Quizz {
     private String name;
     private boolean showResult;
 
+    private String startTime;
+    private String stopTime;
+
     private List<Question> questions;
 
     private List<Course> courses;
@@ -30,7 +33,7 @@ public class Quizz {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public boolean isShowResult() {
         return showResult;
     }
@@ -53,6 +56,22 @@ public class Quizz {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStopTime() {
+        return stopTime;
+    }
+
+    public void setStopTime(String stopTime) {
+        this.stopTime = stopTime;
     }
 
     @Override
