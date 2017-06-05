@@ -15,7 +15,6 @@ public class QuizzTimer extends Thread {
     @Override
     public void run() {
         while (secondsLeft > 0) {
-            System.out.println("Debagger 1: " + secondsLeft);
             try {
                 int tempSecondsLeft = secondsLeft;
                 int hours = tempSecondsLeft / 3600;
@@ -25,6 +24,7 @@ public class QuizzTimer extends Thread {
                 int seconds = tempSecondsLeft;
                 secondsLeft--;
                 quizzViewController.setTimeLeft(hours + ":" + minutes + ":" + seconds);
+                
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

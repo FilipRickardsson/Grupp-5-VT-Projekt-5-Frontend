@@ -24,6 +24,7 @@
       <VBox styleClass="content">
          <children>
             <Label fx:id="lblQuizzName" styleClass="header" text="&lt;Testname&gt;" />
+            <Label fx:id="lblTimeLeft" styleClass="timer" text="HH:MM" />
             <VBox fx:id="vbQuizzContainer" styleClass="studentView">
                <children>
                   <Label fx:id="lblQuestion" styleClass="header" text="Question &lt;?&gt;/&lt;?&gt;" />
@@ -45,7 +46,4 @@
          </children>
       </VBox>
    </center>
-   <bottom>
-      <Label fx:id="lblTimeLeft" text="HH:MM" BorderPane.alignment="CENTER" />
-   </bottom>
 </BorderPane>
