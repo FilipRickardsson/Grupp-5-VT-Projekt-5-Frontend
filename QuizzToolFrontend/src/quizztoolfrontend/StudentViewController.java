@@ -105,6 +105,7 @@ public class StudentViewController implements Initializable {
         controller.getQuestions(selectedQuizz.getQuizzId());
         controller.setUserId(userId);
         controller.setQuizzTitle(selectedQuizz.getName());
+        controller.setStartAndEnd(selectedQuizz.getStopTime());
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
