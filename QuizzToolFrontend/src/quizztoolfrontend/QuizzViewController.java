@@ -159,6 +159,7 @@ public class QuizzViewController implements Initializable {
             Label lblResult = new Label("Your Result:\nGrade: " + quizzResult.getGrade() + "\nPoints: " + quizzResult.getPoints());
             vbQuizzContainer.getChildren().add(lblResult);
         }
+         dialog.Dialog.display("INFO", "Are sure?");
 
     }
 
