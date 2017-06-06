@@ -28,6 +28,9 @@ import models.Question;
 import models.Quizz;
 import servercommunication.ServerConnection;
 
+/**
+ * Controller class for the AddQuizz Scene
+ */
 public class AddQuizzController implements Initializable {
 
     ServerConnection serverConnection;
@@ -64,6 +67,9 @@ public class AddQuizzController implements Initializable {
 
     private boolean valid = true;
 
+    /**
+     * Adds all the components to the GUI for a new question
+     */
     @FXML
     private void addQuestion() {
         VBox questionContainer = new VBox();
@@ -123,6 +129,9 @@ public class AddQuizzController implements Initializable {
         nbrOfQuestions++;
     }
 
+    /**
+     * Removes the last question in the GUI
+     */
     @FXML
     private void removeQuestion() {
         if (questionContainers.size() > 1) {
@@ -133,6 +142,11 @@ public class AddQuizzController implements Initializable {
         }
     }
 
+    /**
+     * Adds all the components to the GUI for a new alternative
+     *
+     * @param event
+     */
     @FXML
     private void addAlternative(ActionEvent event) {
         TextField alternative = new TextField();
@@ -144,7 +158,6 @@ public class AddQuizzController implements Initializable {
         VBox vbox = null;
         for (VBox vb : alternativeContainers) {
             int userdata = ((Integer) vb.getUserData()).intValue();
-            System.out.println("FE Debagger 4 loop Userdata: " + userdata);
             if (((Integer) vb.getUserData()).intValue() == id.intValue()) {
                 vbox = vb;
                 break;
@@ -158,6 +171,11 @@ public class AddQuizzController implements Initializable {
         }
     }
 
+    /**
+     * Removes the last alternative in the GUI
+     *
+     * @param event
+     */
     @FXML
     private void removeAlternative(ActionEvent event) {
         Button btn = ((Button) event.getSource());
@@ -178,7 +196,6 @@ public class AddQuizzController implements Initializable {
 
     @FXML
     private void createQuizz(ActionEvent event) {
-        System.out.println("create Quizz");
         Button btn = (Button) event.getSource();
         valid = true;
         if (validateInput((Pane) btn.getParent())) {
@@ -242,21 +259,20 @@ public class AddQuizzController implements Initializable {
                     }
                 }
 
-                System.out.println("Create Quizz Success");
-
                 loadPreviousScene(event);
             } else {
-                System.out.println("Debagger 3: ");
                 lblError.setText("Check your input.");
-                System.out.println("Create Quizz Error");
             }
         } else {
-            System.out.println("Debagger 4: ");
             lblError.setText("Check your input.");
-            System.out.println("Create Quizz Error");
         }
     }
 
+    /**
+     * Validates the start and stop time inputted by the user
+     *
+     * @return true if valid input
+     */
     private boolean validatestartAndStopTime() {
         boolean validStartAndStopTime = true;
 
@@ -272,14 +288,19 @@ public class AddQuizzController implements Initializable {
 
             validStartAndStopTime = startHours > -1 && startHours < 24 && stopHours > -1 && stopHours < 24 && startMinutes > -1 && startMinutes < 60 && stopMinutes > -1 && stopMinutes < 60 && startHours < stopHours;
         } catch (NumberFormatException e) {
-            System.out.println("Debagger 1: ");
             validStartAndStopTime = false;
         }
 
-        System.out.println("Debagger 2 StartStopValid: " + validStartAndStopTime);
         return validStartAndStopTime;
     }
 
+    /**
+     * Validates that one and only one alternative is the correct one per
+     * question
+     *
+     * @param questions the questions to validate
+     * @return true if valid alternatives
+     */
     private boolean validateQuestionAlterntives(List<Question> questions) {
         boolean validAlternatives = true;
 
@@ -299,6 +320,11 @@ public class AddQuizzController implements Initializable {
         return validAlternatives;
     }
 
+    /**
+     * Loads the previous scene which is the TeacherView
+     *
+     * @param event
+     */
     @FXML
     private void loadPreviousScene(ActionEvent event) {
         try {
@@ -314,20 +340,25 @@ public class AddQuizzController implements Initializable {
         }
     }
 
+    /**
+     * Validates the input for questions and alternatives are not empty and that
+     * a course has been selected
+     *
+     * @param parent the node to which to search for textfields in
+     * @return true if valid input
+     */
     private boolean validateInput(Pane parent) {
         for (Node node : parent.getChildren()) {
             if (node instanceof Pane) {
                 validateInput((Pane) node);
             } else if (node instanceof TextField) {
                 TextField tf = (TextField) node;
-                System.out.println("tf text: " + tf.getText());
                 if (tf.getText().trim().length() < 1) {
                     valid = false;
                     break;
                 }
             } else if (node instanceof TextArea) {
                 TextArea ta = (TextArea) node;
-                System.out.println("ta");
                 if (ta.getText().trim().length() < 1) {
                     valid = false;
                     break;
@@ -342,6 +373,11 @@ public class AddQuizzController implements Initializable {
         return valid;
     }
 
+    /**
+     * Loads the login scene
+     *
+     * @param event
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {

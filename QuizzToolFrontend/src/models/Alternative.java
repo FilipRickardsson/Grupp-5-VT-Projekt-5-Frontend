@@ -2,6 +2,9 @@ package models;
 
 import java.util.List;
 
+/**
+ * POJO class for Altenative
+ */
 public class Alternative {
 
     private int alternativeId;

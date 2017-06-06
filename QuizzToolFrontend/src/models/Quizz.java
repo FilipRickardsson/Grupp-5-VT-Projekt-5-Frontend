@@ -2,6 +2,9 @@ package models;
 
 import java.util.List;
 
+/**
+ * POJO class for Quizz
+ */
 public class Quizz {
 
     private int quizzId;

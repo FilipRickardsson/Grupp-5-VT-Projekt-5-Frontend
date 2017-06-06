@@ -26,6 +26,9 @@ import models.Question;
 import models.QuizzResult;
 import servercommunication.ServerConnection;
 
+/**
+ * Controller class for the QuizzView Scene
+ */
 public class QuizzViewController implements Initializable {
 
     private ServerConnection serverConnection = ServerConnection.getServerConnection();
@@ -52,6 +55,11 @@ public class QuizzViewController implements Initializable {
     @FXML
     Label lblTimeLeft;
 
+    /**
+     * Retrieves all the questions from the server for the current quizz
+     *
+     * @param quizzId The id of the current quizz
+     */
     public void getQuestions(int quizzId) {
         this.quizzId = quizzId;
         questions = serverConnection.getQuestions(quizzId);
@@ -59,20 +67,36 @@ public class QuizzViewController implements Initializable {
         setQuestion();
     }
 
+    /**
+     * Sets the user id
+     *
+     * @param userId id of the user
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     * Initialises the answer list with incorrect answers
+     */
     private void initQuizzAnsers() {
         for (int i = 0; i < questions.size(); i++) {
             answers.add(-1);
         }
     }
 
+    /**
+     * Sets the title of the quizz
+     *
+     * @param quizzTitle The title of the quizz
+     */
     public void setQuizzTitle(String quizzTitle) {
         lblQuizzName.setText(quizzTitle);
     }
 
+    /**
+     * Switches to the next question
+     */
     @FXML
     private void nextQuestion() {
         collectAnswer();
@@ -83,6 +107,9 @@ public class QuizzViewController implements Initializable {
         }
     }
 
+    /**
+     * Switches to the previous question
+     */
     @FXML
     private void previousQuestion() {
         collectAnswer();
@@ -93,6 +120,9 @@ public class QuizzViewController implements Initializable {
         }
     }
 
+    /**
+     * Clears, updates and creates the necessary components for a question
+     */
     private void setQuestion() {
         lblQuestion.setText("Question " + (currentQuestion + 1) + "/" + questions.size());
 
@@ -112,6 +142,9 @@ public class QuizzViewController implements Initializable {
         updatePreviousAndNextButtons();
     }
 
+    /**
+     * Updates the disabled states of the previous and next buttons
+     */
     private void updatePreviousAndNextButtons() {
         if (currentQuestion == 0 && questions.size() == 1) {
             btnPrevious.setDisable(true);
@@ -128,9 +161,10 @@ public class QuizzViewController implements Initializable {
         }
     }
 
+    /**
+     * Collects the selected answer from the GUI
+     */
     private void collectAnswer() {
-        System.out.println("--------");
-
         for (Node node : vbAlternatives.getChildrenUnmodifiable()) {
             if (node instanceof RadioButton) {
                 RadioButton rb = (RadioButton) node;
@@ -139,22 +173,17 @@ public class QuizzViewController implements Initializable {
                 }
             }
         }
-
-        for (Integer i : answers) {
-            System.out.println(i);
-        }
-
-//        answers.add(currentQuestion, chosenAlternative.getAlternativeId());
-        System.out.println("--------");
     }
 
+    /**
+     * Submits the user answers to the server and shows the result in the GUI if
+     * it is allowed
+     */
     @FXML
     public void submit() {
         collectAnswer();
 
         String serializedAnswers = answers.toString().replace("[", "").replace("]", "").replace(" ", "").trim();
-        System.out.println(serializedAnswers);
-
         QuizzResult quizzResult = serverConnection.submitAnswers(userId, quizzId, serializedAnswers);
 
         Label lblHeader = new Label("The quizz has been submitted.");
@@ -164,13 +193,17 @@ public class QuizzViewController implements Initializable {
         vbQuizzContainer.getChildren().add(lblHeader);
 
         if (quizzResult != null) {
-            System.out.println("Debaggor 4: " + quizzResult.toString());
             Label lblResult = new Label("Your Result:\nGrade: " + quizzResult.getGrade() + "\nPoints: " + quizzResult.getPoints());
             vbQuizzContainer.getChildren().add(lblResult);
         }
 
     }
 
+    /**
+     * Loads the login scene
+     *
+     * @param event
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -184,6 +217,10 @@ public class QuizzViewController implements Initializable {
         }
     }
 
+    /**
+     * Calculated the time left and starts the timer
+     * @param stopTime The stop time of the quizz
+     */
     public void setStartAndEnd(String stopTime) {
         String now = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 
@@ -201,6 +238,10 @@ public class QuizzViewController implements Initializable {
         qt.start();
     }
 
+    /**
+     * Updates the clock with how much time is left
+     * @param timeLeft The time left
+     */
     public void setTimeLeft(String timeLeft) {
         Platform.runLater(new Runnable() {
             @Override

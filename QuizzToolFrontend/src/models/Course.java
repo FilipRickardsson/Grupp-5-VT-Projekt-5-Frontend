@@ -2,6 +2,9 @@ package models;
 
 import java.util.List;
 
+/**
+ * POJO class for Course
+ */
 public class Course {
 
     private int id;

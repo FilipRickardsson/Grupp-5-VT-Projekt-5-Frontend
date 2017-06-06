@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * POJO class for QuizzResult
+ */
 public class QuizzResult {
 
     private int id;
@@ -10,15 +13,6 @@ public class QuizzResult {
     private Quizz quizz;
 
     public QuizzResult() {
-    }
-
-    public QuizzResult(int id, GradeType grade, int points, String quizzTime, QuizzUser quizzUser, Quizz quizz) {
-        this.id = id;
-        this.grade = grade;
-        this.points = points;
-        this.quizzTime = quizzTime;
-        this.quizzUser = quizzUser;
-        this.quizz = quizz;
     }
 
     public int getId() {
