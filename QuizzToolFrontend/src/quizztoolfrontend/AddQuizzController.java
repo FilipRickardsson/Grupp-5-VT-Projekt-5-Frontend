@@ -141,13 +141,6 @@ public class AddQuizzController implements Initializable {
         Button btn = ((Button) event.getSource());
         Integer id = (Integer) btn.getUserData();
 
-        System.out.println("----");
-
-        System.out.println("FE Debagger 1 Add alt userdata: " + id);
-
-        System.out.println("FE Debagger 2 questionSize: " + questionContainers.size());
-        System.out.println("FE Debagger 3 altSize: " + alternativeContainers.size());
-
         VBox vbox = null;
         for (VBox vb : alternativeContainers) {
             int userdata = ((Integer) vb.getUserData()).intValue();
@@ -163,7 +156,6 @@ public class AddQuizzController implements Initializable {
         } else {
             System.out.println("null");
         }
-        System.out.println("----");
     }
 
     @FXML
@@ -227,34 +219,84 @@ public class AddQuizzController implements Initializable {
                 currentQuestion++;
             }
 
-            Quizz quizz = new Quizz();
-            quizz.setQuestions(questions);
-            quizz.setName(tfQuizzName.getText());
-            quizz.setShowResult(chbShowResult.isSelected());
-            quizz.setStartTime(tfStartTime.getText());
-            quizz.setStopTime(tfStopTime.getText());
+            if (validateQuestionAlterntives(questions) && validatestartAndStopTime()) {
 
-            Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
-            serverConnection.addQuizz(quizz, c.getId());
+                Quizz quizz = new Quizz();
+                quizz.setQuestions(questions);
+                quizz.setName(tfQuizzName.getText());
+                quizz.setShowResult(chbShowResult.isSelected());
+                quizz.setStartTime(tfStartTime.getText());
+                quizz.setStopTime(tfStopTime.getText());
 
-            Quizz lastQuizz = serverConnection.getLastQuizz();
+                Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
+                serverConnection.addQuizz(quizz, c.getId());
 
-            for (Question q : questions) {
-                serverConnection.addQuestion(q, lastQuizz.getQuizzId());
-                Question lastQuestion = serverConnection.getLastQuestion();
+                Quizz lastQuizz = serverConnection.getLastQuizz();
 
-                for (Alternative a : q.getAlternatives()) {
-                    serverConnection.addAlternative(a, lastQuestion.getId());
+                for (Question q : questions) {
+                    serverConnection.addQuestion(q, lastQuizz.getQuizzId());
+                    Question lastQuestion = serverConnection.getLastQuestion();
+
+                    for (Alternative a : q.getAlternatives()) {
+                        serverConnection.addAlternative(a, lastQuestion.getId());
+                    }
                 }
+
+                System.out.println("Create Quizz Success");
+
+                loadPreviousScene(event);
+            } else {
+                System.out.println("Debagger 3: ");
+                lblError.setText("Check your input.");
+                System.out.println("Create Quizz Error");
             }
-
-            System.out.println("Create Quizz Success");
-
-            loadPreviousScene(event);
         } else {
-            lblError.setText("All fields must be filled in.");
+            System.out.println("Debagger 4: ");
+            lblError.setText("Check your input.");
             System.out.println("Create Quizz Error");
         }
+    }
+
+    private boolean validatestartAndStopTime() {
+        boolean validStartAndStopTime = true;
+
+        try {
+            String startSplitted[] = tfStartTime.getText().split(":");
+            String stopSplitted[] = tfStopTime.getText().split(":");
+
+            int startHours = Integer.parseInt(startSplitted[0]);
+            int startMinutes = Integer.parseInt(startSplitted[1]);
+
+            int stopHours = Integer.parseInt(stopSplitted[0]);
+            int stopMinutes = Integer.parseInt(stopSplitted[1]);
+
+            validStartAndStopTime = startHours > -1 && startHours < 24 && stopHours > -1 && stopHours < 24 && startMinutes > -1 && startMinutes < 60 && stopMinutes > -1 && stopMinutes < 60 && startHours < stopHours;
+        } catch (NumberFormatException e) {
+            System.out.println("Debagger 1: ");
+            validStartAndStopTime = false;
+        }
+
+        System.out.println("Debagger 2 StartStopValid: " + validStartAndStopTime);
+        return validStartAndStopTime;
+    }
+
+    private boolean validateQuestionAlterntives(List<Question> questions) {
+        boolean validAlternatives = true;
+
+        for (Question q : questions) {
+            int trueCounter = 0;
+            for (Alternative a : q.getAlternatives()) {
+                if (a.isCorrect()) {
+                    trueCounter++;
+                }
+            }
+            if (trueCounter < 1 || trueCounter > 1) {
+                validAlternatives = false;
+                break;
+            }
+        }
+
+        return validAlternatives;
     }
 
     @FXML
@@ -292,6 +334,11 @@ public class AddQuizzController implements Initializable {
                 }
             }
         }
+
+        if (cbCourses.getSelectionModel().getSelectedItem() == null) {
+            valid = false;
+        }
+
         return valid;
     }
 

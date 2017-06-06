@@ -199,8 +199,6 @@ public class QuizzViewController implements Initializable {
 
         QuizzTimer qt = new QuizzTimer(secondsLeft, this);
         qt.start();
-
-//        lblTimeLeft.setText("Now: " + nowSeconds + " StopSeconds: " + stopSeconds + " SecondsLeft: " + secondsLeft);
     }
 
     public void setTimeLeft(String timeLeft) {

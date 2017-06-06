@@ -44,6 +44,7 @@
                            </children>
                         </HBox>
                         <CheckBox fx:id="chbShowResult" mnemonicParsing="false" text="Show Result" />
+                        <Label text="Mark correct alternatives with a # at the end." />
                         <HBox fx:id="hbAddRemoveQuestion" styleClass="horizontalSpacing">
                            <children>
                               <Button mnemonicParsing="false" onAction="#addQuestion" styleClass="actionButton" text="Add Question" />
