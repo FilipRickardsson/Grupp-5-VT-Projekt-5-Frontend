@@ -8,19 +8,11 @@ public class Alternative {
     private String text;
     private boolean correct;
 
-    private List<Question> questions;
+    private Question question;
 
     private List<QuizzUser> quizzUsers;
 
     public Alternative() {
-    }
-
-    public Alternative(int alternativeId, String text, boolean correct, List<Question> questions, List<QuizzUser> quizzUsers) {
-        this.alternativeId = alternativeId;
-        this.text = text;
-        this.correct = correct;
-        this.questions = questions;
-        this.quizzUsers = quizzUsers;
     }
 
     public int getAlternativeId() {
@@ -47,12 +39,12 @@ public class Alternative {
         this.correct = correct;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestions(Question question) {
+        this.question = question;
     }
 
     public List<QuizzUser> getQuizzUsers() {
@@ -65,7 +57,7 @@ public class Alternative {
 
     @Override
     public String toString() {
-        return "Alternative{" + "alternativeId=" + alternativeId + ", text=" + text + ", correct=" + correct + ", questions=" + questions + ", quizzUsers=" + quizzUsers + '}';
+        return "Alternative{" + "alternativeId=" + alternativeId + ", text=" + text + ", correct=" + correct + ", questions=" + question + ", quizzUsers=" + quizzUsers + '}';
     }
 
 }
