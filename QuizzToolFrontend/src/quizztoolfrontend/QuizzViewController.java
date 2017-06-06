@@ -113,7 +113,10 @@ public class QuizzViewController implements Initializable {
     }
 
     private void updatePreviousAndNextButtons() {
-        if (currentQuestion == 0) {
+        if (currentQuestion == 0 && questions.size() == 1) {
+            btnPrevious.setDisable(true);
+            btnNext.setDisable(true);
+        } else if (currentQuestion == 0) {
             btnPrevious.setDisable(true);
             btnNext.setDisable(false);
         } else if (currentQuestion + 1 == questions.size()) {

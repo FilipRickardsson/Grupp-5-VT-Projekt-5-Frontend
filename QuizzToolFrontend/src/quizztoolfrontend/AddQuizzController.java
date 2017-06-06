@@ -33,7 +33,7 @@ public class AddQuizzController implements Initializable {
     ServerConnection serverConnection;
 
     @FXML
-    private TextField tfQuizzName;
+    private TextField tfQuizzName, tfStartTime, tfStopTime;
 
     @FXML
     private CheckBox chbShowResult;
@@ -212,12 +212,25 @@ public class AddQuizzController implements Initializable {
             quizz.setQuestions(questions);
             quizz.setName(tfQuizzName.getText());
             quizz.setShowResult(chbShowResult.isSelected());
-            
-            Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
-            System.out.println("Debagger: " + c.getId());
-            quizz.setCourse(c);
+            quizz.setStartTime(tfStartTime.getText());
+            quizz.setStopTime(tfStopTime.getText());
 
-            serverConnection.addQuizz(quizz);
+            Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
+            serverConnection.addQuizz(quizz, c.getId());
+
+            Quizz lastQuizz = serverConnection.getLastQuizz();
+            System.out.println("FE Debagger 1: " + lastQuizz.getQuizzId());
+
+            for (Question q : questions) {
+                serverConnection.addQuestion(q, lastQuizz.getQuizzId());
+                Question lastQuestion = serverConnection.getLastQuestion();
+                System.out.println("FE Debagger 2: " + lastQuestion.getId());
+
+                for (Alternative a : q.getAlternatives()) {
+                    serverConnection.addAlternative(a, lastQuestion.getId());
+                }
+            }
+
             System.out.println("Create Quizz Success");
 
             loadPreviousScene(event);
