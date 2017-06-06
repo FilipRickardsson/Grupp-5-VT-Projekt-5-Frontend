@@ -127,6 +127,7 @@ public class AddQuizzController implements Initializable {
     private void removeQuestion() {
         if (questionContainers.size() > 1) {
             vbContent.getChildren().remove(questionContainers.get(questionContainers.size() - 1));
+            alternativeContainers.remove(questionContainers.size() - 1);
             questionContainers.remove(questionContainers.size() - 1);
             nbrOfQuestions--;
         }
@@ -140,8 +141,17 @@ public class AddQuizzController implements Initializable {
         Button btn = ((Button) event.getSource());
         Integer id = (Integer) btn.getUserData();
 
+        System.out.println("----");
+
+        System.out.println("FE Debagger 1 Add alt userdata: " + id);
+
+        System.out.println("FE Debagger 2 questionSize: " + questionContainers.size());
+        System.out.println("FE Debagger 3 altSize: " + alternativeContainers.size());
+
         VBox vbox = null;
         for (VBox vb : alternativeContainers) {
+            int userdata = ((Integer) vb.getUserData()).intValue();
+            System.out.println("FE Debagger 4 loop Userdata: " + userdata);
             if (((Integer) vb.getUserData()).intValue() == id.intValue()) {
                 vbox = vb;
                 break;
@@ -150,7 +160,10 @@ public class AddQuizzController implements Initializable {
 
         if (vbox != null) {
             vbox.getChildren().add(alternative);
+        } else {
+            System.out.println("null");
         }
+        System.out.println("----");
     }
 
     @FXML
@@ -196,9 +209,15 @@ public class AddQuizzController implements Initializable {
                         Alternative alt = new Alternative();
 
                         TextField ta = (TextField) node;
-                        alt.setText(ta.getText());
-                        alt.setCorrect(false);
-//                    alt.setQuestions(questions);
+
+                        if (ta.getText().substring(ta.getText().length() - 1).contains("#")) {
+                            alt.setCorrect(true);
+                            alt.setText(ta.getText().substring(0, ta.getText().length() - 1));
+                        } else {
+                            alt.setCorrect(false);
+                            alt.setText(ta.getText());
+                        }
+
                         alternatives.add(alt);
                     }
                 }
@@ -219,12 +238,10 @@ public class AddQuizzController implements Initializable {
             serverConnection.addQuizz(quizz, c.getId());
 
             Quizz lastQuizz = serverConnection.getLastQuizz();
-            System.out.println("FE Debagger 1: " + lastQuizz.getQuizzId());
 
             for (Question q : questions) {
                 serverConnection.addQuestion(q, lastQuizz.getQuizzId());
                 Question lastQuestion = serverConnection.getLastQuestion();
-                System.out.println("FE Debagger 2: " + lastQuestion.getId());
 
                 for (Alternative a : q.getAlternatives()) {
                     serverConnection.addAlternative(a, lastQuestion.getId());
