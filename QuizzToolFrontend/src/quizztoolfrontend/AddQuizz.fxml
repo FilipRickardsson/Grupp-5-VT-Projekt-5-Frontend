@@ -36,7 +36,15 @@
                               <ComboBox fx:id="cbCourses" prefWidth="150.0" promptText="Choose Course" styleClass="combobox" />
                         <Label text="Quizz name:" />
                         <TextField fx:id="tfQuizzName" promptText="Quizz name" styleClass="textfield" />
+                        <Label text="Start and Stop time:" />
+                        <HBox styleClass="horizontalSpacing">
+                           <children>
+                              <TextField fx:id="tfStartTime" promptText="start time: HH:MM" styleClass="textfield" />
+                              <TextField fx:id="tfStopTime" promptText="stop time: HH:MM" styleClass="textfield" />
+                           </children>
+                        </HBox>
                         <CheckBox fx:id="chbShowResult" mnemonicParsing="false" text="Show Result" />
+                        <Label text="Mark correct alternatives with a # at the end." />
                         <HBox fx:id="hbAddRemoveQuestion" styleClass="horizontalSpacing">
                            <children>
                               <Button mnemonicParsing="false" onAction="#addQuestion" styleClass="actionButton" text="Add Question" />

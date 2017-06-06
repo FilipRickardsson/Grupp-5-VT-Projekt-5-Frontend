@@ -33,7 +33,7 @@ public class AddQuizzController implements Initializable {
     ServerConnection serverConnection;
 
     @FXML
-    private TextField tfQuizzName;
+    private TextField tfQuizzName, tfStartTime, tfStopTime;
 
     @FXML
     private CheckBox chbShowResult;
@@ -127,6 +127,7 @@ public class AddQuizzController implements Initializable {
     private void removeQuestion() {
         if (questionContainers.size() > 1) {
             vbContent.getChildren().remove(questionContainers.get(questionContainers.size() - 1));
+            alternativeContainers.remove(questionContainers.size() - 1);
             questionContainers.remove(questionContainers.size() - 1);
             nbrOfQuestions--;
         }
@@ -142,6 +143,8 @@ public class AddQuizzController implements Initializable {
 
         VBox vbox = null;
         for (VBox vb : alternativeContainers) {
+            int userdata = ((Integer) vb.getUserData()).intValue();
+            System.out.println("FE Debagger 4 loop Userdata: " + userdata);
             if (((Integer) vb.getUserData()).intValue() == id.intValue()) {
                 vbox = vb;
                 break;
@@ -150,6 +153,8 @@ public class AddQuizzController implements Initializable {
 
         if (vbox != null) {
             vbox.getChildren().add(alternative);
+        } else {
+            System.out.println("null");
         }
     }
 
@@ -196,9 +201,15 @@ public class AddQuizzController implements Initializable {
                         Alternative alt = new Alternative();
 
                         TextField ta = (TextField) node;
-                        alt.setText(ta.getText());
-                        alt.setCorrect(false);
-//                    alt.setQuestions(questions);
+
+                        if (ta.getText().substring(ta.getText().length() - 1).contains("#")) {
+                            alt.setCorrect(true);
+                            alt.setText(ta.getText().substring(0, ta.getText().length() - 1));
+                        } else {
+                            alt.setCorrect(false);
+                            alt.setText(ta.getText());
+                        }
+
                         alternatives.add(alt);
                     }
                 }
@@ -208,23 +219,84 @@ public class AddQuizzController implements Initializable {
                 currentQuestion++;
             }
 
-            Quizz quizz = new Quizz();
-            quizz.setQuestions(questions);
-            quizz.setName(tfQuizzName.getText());
-            quizz.setShowResult(chbShowResult.isSelected());
-            
-            Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
-            System.out.println("Debagger: " + c.getId());
-            quizz.setCourse(c);
+            if (validateQuestionAlterntives(questions) && validatestartAndStopTime()) {
 
-            serverConnection.addQuizz(quizz);
-            System.out.println("Create Quizz Success");
+                Quizz quizz = new Quizz();
+                quizz.setQuestions(questions);
+                quizz.setName(tfQuizzName.getText());
+                quizz.setShowResult(chbShowResult.isSelected());
+                quizz.setStartTime(tfStartTime.getText());
+                quizz.setStopTime(tfStopTime.getText());
 
-            loadPreviousScene(event);
+                Course c = (Course) cbCourses.getSelectionModel().getSelectedItem();
+                serverConnection.addQuizz(quizz, c.getId());
+
+                Quizz lastQuizz = serverConnection.getLastQuizz();
+
+                for (Question q : questions) {
+                    serverConnection.addQuestion(q, lastQuizz.getQuizzId());
+                    Question lastQuestion = serverConnection.getLastQuestion();
+
+                    for (Alternative a : q.getAlternatives()) {
+                        serverConnection.addAlternative(a, lastQuestion.getId());
+                    }
+                }
+
+                System.out.println("Create Quizz Success");
+
+                loadPreviousScene(event);
+            } else {
+                System.out.println("Debagger 3: ");
+                lblError.setText("Check your input.");
+                System.out.println("Create Quizz Error");
+            }
         } else {
-            lblError.setText("All fields must be filled in.");
+            System.out.println("Debagger 4: ");
+            lblError.setText("Check your input.");
             System.out.println("Create Quizz Error");
         }
+    }
+
+    private boolean validatestartAndStopTime() {
+        boolean validStartAndStopTime = true;
+
+        try {
+            String startSplitted[] = tfStartTime.getText().split(":");
+            String stopSplitted[] = tfStopTime.getText().split(":");
+
+            int startHours = Integer.parseInt(startSplitted[0]);
+            int startMinutes = Integer.parseInt(startSplitted[1]);
+
+            int stopHours = Integer.parseInt(stopSplitted[0]);
+            int stopMinutes = Integer.parseInt(stopSplitted[1]);
+
+            validStartAndStopTime = startHours > -1 && startHours < 24 && stopHours > -1 && stopHours < 24 && startMinutes > -1 && startMinutes < 60 && stopMinutes > -1 && stopMinutes < 60 && startHours < stopHours;
+        } catch (NumberFormatException e) {
+            System.out.println("Debagger 1: ");
+            validStartAndStopTime = false;
+        }
+
+        System.out.println("Debagger 2 StartStopValid: " + validStartAndStopTime);
+        return validStartAndStopTime;
+    }
+
+    private boolean validateQuestionAlterntives(List<Question> questions) {
+        boolean validAlternatives = true;
+
+        for (Question q : questions) {
+            int trueCounter = 0;
+            for (Alternative a : q.getAlternatives()) {
+                if (a.isCorrect()) {
+                    trueCounter++;
+                }
+            }
+            if (trueCounter < 1 || trueCounter > 1) {
+                validAlternatives = false;
+                break;
+            }
+        }
+
+        return validAlternatives;
     }
 
     @FXML
@@ -262,6 +334,11 @@ public class AddQuizzController implements Initializable {
                 }
             }
         }
+
+        if (cbCourses.getSelectionModel().getSelectedItem() == null) {
+            valid = false;
+        }
+
         return valid;
     }
 

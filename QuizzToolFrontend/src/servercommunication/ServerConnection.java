@@ -6,6 +6,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import models.Alternative;
 import models.Course;
 import models.Question;
 import models.Quizz;
@@ -77,9 +78,9 @@ public class ServerConnection {
         return quizzResult;
     }
 
-    public void addQuizz(Quizz quizzToAdd) {
+    public void addQuizz(Quizz quizzToAdd, int courseId) {
         client.target("http://localhost:8080/QuizzToolBackend/webapi/")
-                .path("quizzes/")
+                .path("quizzes/" + courseId)
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(quizzToAdd), Quizz.class);
     }
@@ -91,6 +92,36 @@ public class ServerConnection {
                 .get(new GenericType<List<Course>>() {
                 });
         return courses;
+    }
+
+    public Quizz getLastQuizz() {
+        Quizz lastQuizz = client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("quizzes/lastQuizz")
+                .request(MediaType.APPLICATION_JSON)
+                .get(Quizz.class);
+        return lastQuizz;
+    }
+
+    public void addQuestion(Question questionToAdd, int quizzId) {
+        client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("questions/" + quizzId)
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(questionToAdd), Question.class);
+    }
+
+    public Question getLastQuestion() {
+        Question lastQuestion = client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("questions/lastQuestion")
+                .request(MediaType.APPLICATION_JSON)
+                .get(Question.class);
+        return lastQuestion;
+    }
+
+    public void addAlternative(Alternative alternativeToAdd, int questionId) {
+        client.target("http://localhost:8080/QuizzToolBackend/webapi/")
+                .path("alternatives/" + questionId)
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.json(alternativeToAdd), Alternative.class);
     }
 
 }

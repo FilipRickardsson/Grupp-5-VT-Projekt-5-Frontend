@@ -2,6 +2,8 @@ package quizztoolfrontend;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -72,22 +74,28 @@ public class StudentViewController implements Initializable {
             }
 
             if (!found) {
-                selectedQuizz = quizz;
-                olResult.add("No result. Click the button to start the Quizz.");
-                startTest.setDisable(false);
+                String now = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                System.out.println("Debagger 5: " + quizz.getStartTime());
+                String splittedNow[] = now.split(":");
+                String splittedStartTime[] = quizz.getStartTime().split(":");
+
+                int nowInSeconds = Integer.parseInt(splittedNow[0]) * 3600 + Integer.parseInt(splittedNow[1]) * 60;
+                int startTimeInSeconds = Integer.parseInt(splittedStartTime[0]) * 3600 + Integer.parseInt(splittedStartTime[1]) * 60;
+
+                if (nowInSeconds > startTimeInSeconds) {
+                    selectedQuizz = quizz;
+                    olResult.add("No result. Click the button to start the Quizz.");
+                    startTest.setDisable(false);
+                } else {
+                    olResult.add("You can't access this quizz before " + quizz.getStartTime());
+                    startTest.setDisable(true);
+                }
             }
         } else {
             startTest.setDisable(true);
             olResult.clear();
         }
 
-//        Quizz quizz = (Quizz) cbQuizzes.getSelectionModel().getSelectedItem();
-//        if (quizz != null) {
-//            selectedQuizz = quizz;
-//            startTest.setDisable(false);
-//        } else {
-//            startTest.setDisable(true);
-//        }
     }
 
     @FXML
