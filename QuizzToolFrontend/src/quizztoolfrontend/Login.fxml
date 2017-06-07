@@ -29,7 +29,7 @@
                   <Label text="Password:" />
                   <PasswordField fx:id="tfPassword" styleClass="textfield" />
                   <Label fx:id="lblError" styleClass="error" />
-                  <Button mnemonicParsing="false" onAction="#login" styleClass="actionButton" text="Login">
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#login" styleClass="actionButton" text="Login">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></Button>
