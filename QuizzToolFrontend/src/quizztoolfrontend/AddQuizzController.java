@@ -181,16 +181,16 @@ public class AddQuizzController implements Initializable {
         Button btn = ((Button) event.getSource());
         Integer id = (Integer) btn.getUserData();
 
-        VBox vbox = null;
-        for (VBox vb : alternativeContainers) {
-            if (((Integer) vb.getUserData()).intValue() == id.intValue()) {
-                vbox = vb;
+        VBox foundAlternativeContainer = null;
+        for (VBox alternativeContainer : alternativeContainers) {
+            if (((Integer) alternativeContainer.getUserData()).intValue() == id.intValue()) {
+                foundAlternativeContainer = alternativeContainer;
                 break;
             }
         }
 
-        if (vbox != null && !(vbox.getChildren().size() < 3)) {
-            vbox.getChildren().remove(vbox.getChildren().size() - 1);
+        if (foundAlternativeContainer != null && !(foundAlternativeContainer.getChildren().size() < 3)) {
+            foundAlternativeContainer.getChildren().remove(foundAlternativeContainer.getChildren().size() - 1);
         }
     }
 
