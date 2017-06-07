@@ -47,7 +47,7 @@
                         <Label text="Mark correct alternatives with a # at the end." />
                         <HBox fx:id="hbAddRemoveQuestion" styleClass="horizontalSpacing">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addQuestion" styleClass="actionButton" text="Add Question" />
+                              <Button defaultButton="true" mnemonicParsing="false" onAction="#addQuestion" styleClass="actionButton" text="Add Question" />
                               <Button mnemonicParsing="false" onAction="#removeQuestion" styleClass="actionButton" text="Remove Question" />
                            </children>
                         </HBox>

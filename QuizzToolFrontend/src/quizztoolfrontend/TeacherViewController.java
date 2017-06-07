@@ -24,6 +24,9 @@ import models.QuizzResult;
 import models.QuizzUser;
 import servercommunication.ServerConnection;
 
+/**
+ * Controller class for the TeacherView Scene
+ */
 public class TeacherViewController implements Initializable {
 
     private ServerConnection serverConnection;
@@ -47,6 +50,11 @@ public class TeacherViewController implements Initializable {
         cbCourses.getItems().addAll(quizzUser.getCourses());
     }
 
+    /**
+     * Updated the list of available quizzes when the course changes
+     *
+     * @param event
+     */
     @FXML
     private void onCourseChange(ActionEvent event) {
         Course course = (Course) cbCourses.getSelectionModel().getSelectedItem();
@@ -56,6 +64,12 @@ public class TeacherViewController implements Initializable {
         cbQuizzes.getItems().setAll(course.getQuizzes());
     }
 
+    /**
+     * Updates the GUI based on the selected quizz and shows statistics if there
+     * are any
+     *
+     * @param event
+     */
     @FXML
     private void onQuizzChange(ActionEvent event) {
         Quizz quizz = (Quizz) cbQuizzes.getSelectionModel().getSelectedItem();
@@ -79,7 +93,6 @@ public class TeacherViewController implements Initializable {
                     olPie.add(new PieChart.Data("IG: " + statistics[1], statistics[1]));
                 }
 
-                System.out.println(statistics[2]);
                 if (statistics[2] > 0) {
                     olPie.add(new PieChart.Data("G: " + statistics[2], statistics[2]));
                 }
@@ -98,6 +111,12 @@ public class TeacherViewController implements Initializable {
         }
     }
 
+    /**
+     * Calculates the statistics based on results
+     *
+     * @param quizzResults the results to calculate statistics for
+     * @return
+     */
     private int[] calcStatistics(List<QuizzResult> quizzResults) {
         int sum = 0;
         int ig = 0;
@@ -118,6 +137,11 @@ public class TeacherViewController implements Initializable {
         return new int[]{sum, ig, g, vg};
     }
 
+    /**
+     * Loads the Login scene
+     *
+     * @param event
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -131,13 +155,16 @@ public class TeacherViewController implements Initializable {
         }
     }
 
+    /**
+     * Loads the AddQuizz scene
+     * @param event 
+     */
     @FXML
     private void addQuizz(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuizz.fxml"));
             Parent root = (Parent) loader.load();
             AddQuizzController controller = (AddQuizzController) loader.getController();
-//            controller.addQuestion();
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -146,6 +173,9 @@ public class TeacherViewController implements Initializable {
         }
     }
 
+    /**
+     * Retrieves all courses and quizzes from the server
+     */
     public void getCoursesAndQuizzes() {
         QuizzUser qu = serverConnection.getQuizzUser(LoggedInCredentials.getUsername(), LoggedInCredentials.getPassword());
         setCoursesAndQuizzes(qu);

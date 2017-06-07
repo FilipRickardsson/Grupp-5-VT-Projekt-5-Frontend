@@ -3,6 +3,9 @@ package models;
 import java.util.List;
 import quizztoolfrontend.QuizzUserType;
 
+/**
+ * POJO class for QuizzUser
+ */
 public class QuizzUser {
 
     private int id;
@@ -10,7 +13,7 @@ public class QuizzUser {
     private String password;
     private QuizzUserType quizzUserType;
     private List<Course> courses;
-    
+
     public QuizzUser() {
     }
 

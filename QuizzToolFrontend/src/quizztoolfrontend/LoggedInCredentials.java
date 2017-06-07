@@ -1,5 +1,8 @@
 package quizztoolfrontend;
 
+/**
+ * Stores the credentials for the currently logged in user
+ */
 public class LoggedInCredentials {
 
     private static String username;

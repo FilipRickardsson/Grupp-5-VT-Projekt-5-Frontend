@@ -2,6 +2,9 @@ package quizztoolfrontend;
 
 import javafx.application.Platform;
 
+/**
+ * Handles the countdown to when the quizz must be submitted
+ */
 public class QuizzTimer extends Thread {
 
     private int secondsLeft;
@@ -12,6 +15,9 @@ public class QuizzTimer extends Thread {
         this.quizzViewController = quizzViewController;
     }
 
+    /**
+     * Calculates how much time is left and updates the GUI
+     */
     @Override
     public void run() {
         while (secondsLeft > 0) {
