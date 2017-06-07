@@ -38,7 +38,7 @@
                      <children>
                         <Button fx:id="btnPrevious" mnemonicParsing="false" onAction="#previousQuestion" styleClass="actionButton" text="Previous" />
                         <Button mnemonicParsing="false" onAction="#submit" styleClass="actionButton" text="Submit" />
-                        <Button fx:id="btnNext" mnemonicParsing="false" onAction="#nextQuestion" styleClass="actionButton" text="Next" />
+                        <Button fx:id="btnNext" defaultButton="true" mnemonicParsing="false" onAction="#nextQuestion" styleClass="actionButton" text="Next" />
                      </children>
                   </HBox>
                </children>
